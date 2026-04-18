@@ -1,3 +1,6 @@
+//package to fully decode html
+import 'package:html_unescape/html_unescape.dart';
+
 class Question {
   final String questionText;
   final String correctAnswer;
@@ -10,13 +13,16 @@ class Question {
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
-    List<String> allOptions = List<String>.from(json['incorrect_answers']);
-    allOptions.add(json['correct_answer']);
+    final unescape = HtmlUnescape();
+    List<String> allOptions = List<String>.from(json['incorrect_answers'].map((answer) => unescape.convert(answer)));
+
+    final decodedCorrectAnswer = unescape.convert(json['correct_answer']);
+    allOptions.add(decodedCorrectAnswer);
     allOptions.shuffle();
 
     return Question(
-      questionText: json['question'],
-      correctAnswer: json['correct_answer'],
+      questionText: unescape.convert(json['question']),
+      correctAnswer: decodedCorrectAnswer,
       options: allOptions,
     );
   }
