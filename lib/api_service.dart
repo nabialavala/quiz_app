@@ -5,8 +5,8 @@ import 'question.dart';
 class ApiService {
   static Future<List<Question>> fetchQuestions() async{
     try {
-      //assignment example - change to my generated link after
-      final String url = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple';
+      //generated link
+      final String url = 'https://opentdb.com/api.php?amount=10&category=32&type=multiple';
       final response = await http.get(Uri.parse(url));
       //stores JSON text
       final data = jsonDecode(response.body);
